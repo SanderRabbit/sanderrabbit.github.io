@@ -544,10 +544,14 @@ img {
   }
 
   .desktop-window {
+    --win-x: 0;
+    --win-y: 0;
     position: relative;
     width: 100%;
     min-width: 0;
     margin: 0;
+    left: 0;
+    top: 0;
   }
 
 
