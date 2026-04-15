@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<audio id="icon-open-sound" preload="none">
+  <source src="https://file.garden/Zllpn6gh4hF11fjI/select.wav" type="audio/mpeg">
+</audio>
+
+<body class="inner-page">
+  <div class="content-wrap">
+    <canvas id="pixel-rain"></canvas>
+
+    <div class="occult-glow occult-glow-1"></div>
+    <div class="occult-glow occult-glow-2"></div>
+
+    <section class="desktop-stage" aria-label="occult desktop">
+      <div class="desktop-overlay"></div>
+      <div class="desktop-noise"></div>
+
+      <!-- 바탕화면 아이콘 -->
+      <nav class="desktop-icons" aria-label="desktop navigation">
+        <button
+          class="desktop-icon"
+          type="button"
+          data-open-window="window-profile"
+          aria-controls="window-profile"
+        >
+          <span class="icon-art" aria-hidden="true">✟</span>
+          <span class="icon-label">readme.txt</span>
+        </button>
+
+        <button
+          class="desktop-icon"
+          type="button"
+          id="explore-button"
+        >
+          <span class="icon-art" aria-hidden="true">𖤐</span>
+          <span class="icon-label">explorer.exe</span>
+        </button>
+
+        <button
+          class="desktop-icon"
+          type="button"
+          data-open-window="window-gallery"
+          aria-controls="window-gallery"
+        >
+          <span class="icon-art" aria-hidden="true">☩</span>
+          <span class="icon-label">gallery.webp</span>
+        </button>
+
+        <button
+          class="desktop-icon"
+          type="button"
+          data-open-window="window-ritual"
+          aria-controls="window-ritual"
+        >
+          <span class="icon-art" aria-hidden="true">🕯</span>
+          <span class="icon-label">ritual-log.txt</span>
+        </button>
+
+        <button
+          class="desktop-icon"
+          type="button"
+          data-open-window="window-archive"
+          aria-controls="window-archive"
+        >
+          <span class="icon-art" aria-hidden="true">✢</span>
+          <span class="icon-label">D2Rforum.html</span>
+        </button>
+      
+      </nav>
+
+      <!-- 기본 소개 창 -->
+      <article
+        id="window-profile"
+        class="desktop-window intro-window"
+        data-window
+        data-default-open="true"
+        style="--win-x: 6%; --win-y: 10%; --win-w: 340px;"
+        aria-labelledby="title-profile"
+      >
+        <div class="window-titlebar" data-drag-handle>
+          <span class="window-title" id="title-profile">readme.txt</span>
+
+          <div class="window-buttons">
+            <button type="button" class="window-btn" aria-label="minimize" tabindex="-1">_</button>
+            <button type="button" class="window-btn" aria-label="maximize" tabindex="-1">□</button>
+            <button type="button" class="window-btn close-btn" data-close-window aria-label="close">×</button>
+          </div>
+        </div>
+
+        <div class="window-body crest-box hello-scroll">
+
+  <div class="hello-copy">
+<p> 지나가는 하늘에는</p>
+<p>가을로 가득 차 있습니다.</p>
+
+<p>나는 아무 걱정도 없이</p>
+<p>가을 속의 별들을 다 헤일 듯합니다.</p>
+
+<p>가슴속에 하나둘 새겨지는 별을</p>
+<p>이제 다 못 헤는 것은</p>
+<p>쉬이 아침이 오는 까닭이요,</p>
+<p>내일 밤이 남은 까닭이요,</p>
+<p>아직 나의 청춘이 다하지 않은 까닭입니다.</p>
+
+<p>별 하나에 추억과</p>
+<p>별 하나에 사랑과</p>
+<p>별 하나에 쓸쓸함과</p>
+<p>별 하나에 동경과</p>
+<p>별 하나에 시와</p>
+<p>별 하나에 어머니, 어머니,</p>
+  </div>
+
+        </div>
+      </article>
+
+      <!-- 갤러리 창 -->
+      <article
+        id="window-gallery"
+        class="desktop-window is-hidden"
+        data-window
+        style="--win-x: 26%; --win-y: 18%; --win-w: 350px;"
+        aria-labelledby="title-gallery"
+      >
+        <div class="window-titlebar" data-drag-handle>
+          <span class="window-title" id="title-gallery">gallery.webp</span>
+
+          <div class="window-buttons">
+            <button type="button" class="window-btn" aria-label="minimize" tabindex="-1">_</button>
+            <button type="button" class="window-btn" aria-label="maximize" tabindex="-1">□</button>
+            <button type="button" class="window-btn close-btn" data-close-window aria-label="close">×</button>
+          </div>
+        </div>
+       <div class="occult-glow occult-glow-1"></div>
+       <div class="occult-glow occult-glow-2"></div>
+        <div class="window-body image-window-body">
+          <figure class="photo-frame">
+            <img src="https://file.garden/Zllpn6gh4hF11fjI/img/1000004345.png" alt="메인 갤러리 이미지" class="window-photo">
+            <figcaption>메딕스팡니 ㅎㅎ</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <!-- 로그 창 -->
+      <article
+        id="window-ritual"
+        class="desktop-window is-hidden"
+        data-window
+        style="--win-x: 58%; --win-y: 12%; --win-w: 320px;"
+        aria-labelledby="title-ritual"
+      >
+        <div class="window-titlebar" data-drag-handle>
+          <span class="window-title" id="title-ritual">ritual-log.txt</span>
+
+          <div class="window-buttons">
+            <button type="button" class="window-btn" aria-label="minimize" tabindex="-1">_</button>
+            <button type="button" class="window-btn" aria-label="maximize" tabindex="-1">□</button>
+            <button type="button" class="window-btn close-btn" data-close-window aria-label="close">×</button>
+          </div>
+        </div>
+
+        <div class="window-body side-panel">
+          <div class="panel-section">
+            <div class="panel-label">CURRENT MOOD</div>
+            <p>이거 언제다 끝내 엉엉.</p>
+          </div>
+
+          <div class="panel-section">
+            <div class="panel-label">DESKTOP NOTES</div>
+            <ul>
+              <li>아이콘 클릭 시 팝업 창 열림(완)</li>
+              <li>창은 드래그 가능(완)</li>
+              <li>검정/빨강 오컬트 윈도우 UI(완)</li>
+              <li>모바일에서는 자동으로 세로 정렬(?)</li>
+            </ul>
+          </div>
+
+          <div class="panel-section quote-box">
+            <span class="quote-mark">✢</span>
+            <p>DO NOT PANIC.<br>UNDER CONSTRUCTION.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 두 번째 이미지 창 -->
+<article
+  id="window-archive"
+  class="desktop-window is-hidden"
+  data-window
+  style="--win-x: 42%; --win-y: 44%; --win-w: 500px;"
+  aria-labelledby="title-archive"
+>
+  <div class="window-titlebar" data-drag-handle>
+    <span class="window-title" id="title-archive">D2Rforum.html</span>
+
+    <div class="window-buttons">
+      <button type="button" class="window-btn" aria-label="minimize" tabindex="-1">_</button>
+      <button type="button" class="window-btn" aria-label="maximize" tabindex="-1">□</button>
+      <button type="button" class="window-btn close-btn" data-close-window aria-label="close">×</button>
+    </div>
+  </div>
+
+  <div class="window-body guestbook-body">
+      <!-- 여기에 Cbox Publish 페이지에서 받은 iframe 코드 넣기 -->
+      <iframe src="https://sanderrabbit.atabook.org/" width="100%" height="320" allowtransparency="yes" allow="autoplay" scrolling="auto" class="guestbook-frame"></iframe>	
+    </div>
+</article>
+    </section>
+  </div>
+
+  <script src="rain.js"></script>
+  <script src="window-drag.js"></script>
+</body>
+
+<script>
+const openSound = document.getElementById("icon-open-sound");
+const exploreButton = document.getElementById("explore-button");
+
+if (exploreButton) {
+  exploreButton.addEventListener("click", () => {
+    if (openSound) {
+      openSound.currentTime = 0;
+      openSound.play().catch(() => {});
+    }
+
+    const parentFrame = window.parent.document.querySelector(".content-frame");
+    if (parentFrame) {
+      parentFrame.src = "/diary/index";
+    }
+  });
+}
+
+</script>
+
+</html>
