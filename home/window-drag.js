@@ -73,6 +73,13 @@
        }
      });
    };
+                                      
+ const layoutMobileWindows = () => {                                                                                              
+    visibleWindows().forEach((win) => {                                                                                            
+      win.style.left = "";                                                                                                         
+      win.style.top = "";                                                                                                          
+    });                                                                                                                            
+  };
 
   const centerWindowIfNeeded = (win) => {
     if (isMobile.matches) return;
