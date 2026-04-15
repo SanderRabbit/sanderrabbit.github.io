@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Diary</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="diary-theme.css" />
+</head>
+<body class="diary-body">
+  <main class="diary-shell">
+    <a class="back-link home-return" href="/home/home.html">← 바탕화면으로 돌아가기</a>
+
+    <header class="occult-header">
+      <p class="occult-kicker">SANCTUARY ARCHIVE // PERSONAL HUNT LOG</p>
+      <h1>Game Diary</h1>
+      <p class="occult-intro">
+        내가 지나온 게임들의 흔적을 모아 둔 개인 일지. 포스터를 눌러 리뷰, 날짜별 기록, 공략, 스포일러 메모를 확인할 수 있음.
+      </p>
+    </header>
+
+    <section class="game-grid" aria-label="게임 목록">
+      <article class="game-card">
+        <a class="poster-link" href="games/newvegas.html">
+          <img src="https://file.garden/Zllpn6gh4hF11fjI/game/newvegas.webp" alt="뉴베" />
+          <span class="poster-overlay">엔딩 완료/DLC 완료</span>
+        </a>
+        <div class="card-meta">
+          <h2>FALLOUT : NEW VEGAS</h2>
+          <p class="status-tag">The truth is...</p>
+          <p class="star-line" aria-label="별점 5점 만점에 5점">★★★★★</p>
+          <p class="micro-review">엄마 쟤 모래 먹어.</p>
+        </div>
+      </article>
+
+      <article class="game-card">
+        <a class="poster-link" href="games/silenthill2.html">
+          <img src="https://file.garden/Zllpn6gh4hF11fjI/game/silenthill2.webp" alt="사힐 포스터" />
+          <span class="poster-overlay">우드사이드 아파트 진입...</span>
+        </a>
+        <div class="card-meta">
+          <h2>SILENT HILL 2 REMAKE</h2>
+          <p class="status-tag">There, by the lake, he finds a woman eerily similar to her...</p>
+          <p class="star-line" aria-label="별점 5점 만점에 4점">★★★★☆</p>
+          <p class="micro-review">우린 모두 우리들만의 사일런트 힐에 갇혀있다.</p>
+        </div>
+      </article>
+
+      <article class="game-card">
+        <a class="poster-link" href="games/diablo2.html">
+          <img src="https://file.garden/Zllpn6gh4hF11fjI/game/diablo2.webp" alt="디아2" />
+          <span class="poster-overlay">엔딩 완료/DLC 완료</span>
+        </a>
+        <div class="card-meta">
+          <h2>DIABLO 2</h2>
+          <p class="status-tag">stay awhile, and listen.</p>
+          <p class="star-line" aria-label="별점 5점 만점에 5점">★★★★★</p>
+          <p class="micro-review">불길한 정적과 잔상만으로 끝까지 사람을 붙드는 악몽 같은 파밍겜.</p>
+        </div>
+      </article>
+
+      <article class="game-card">
+        <a class="poster-link" href="games/oblivion.html">
+          <img src="https://file.garden/Zllpn6gh4hF11fjI/game/oblivion.webp" alt="오블" />
+          <span class="poster-overlay">엔딩 완료/DLC 완료</span>
+        </a>
+        <div class="card-meta">
+          <h2>TES IV : OBLIVION</h2>
+          <p class="status-tag">Cheese, for everyone!</p>
+          <p class="star-line" aria-label="별점 5점 만점에 5점">★★★★☆</p>
+          <p class="micro-review">걸어서 탐리엘 속으로.</p>
+        </div>
+      </article>
+
+      <article class="game-card">
+        <a class="poster-link" href="games/morrowind.html">
+          <img src="https://file.garden/Zllpn6gh4hF11fjI/game/morrowind.webp" alt="모로윈드" />
+          <span class="poster-overlay">엔딩 완료/DLC 완료</span>
+        </a>
+        <div class="card-meta">
+          <h2>TES III : MORROWIND</h2>
+          <p class="status-tag">Welcome Nerevar, to the place, where destiny is made.</p>
+          <p class="star-line" aria-label="별점 5점 만점에 5점">★★★★★</p>
+          <p class="micro-review">RPG하면 떠올리는 모든 요소를 갖춘 갓겜.</p>
+        </div>
+      </article>
+
+      <article class="game-card">
+        <a class="poster-link" href="games/tf2.html">
+          <img src="https://file.garden/Zllpn6gh4hF11fjI/game/tf2.webp" alt="팀포" />
+          <span class="poster-overlay">MvM playing</span>
+        </a>
+        <div class="card-meta">
+          <h2>Team Fortress 2</h2>
+          <p class="status-tag">After 9 years in development, hopefully, it would have been worth the wait.</p>
+          <p class="star-line" aria-label="별점 없음">★★★★☆</p>
+          <p class="micro-review">환장하는 팀과 함께하는 개꿀잼몰카.</p>
+        </div>
+      </article>
+    </section>
+  </main>
+  
+    <audio id="select-sound" preload="none" src="https://file.garden/Zllpn6gh4hF11fjI/select.wav"></audio>
+
+  <script>
+    const selectSound = document.getElementById('select-sound');
+    const posterLinks = document.querySelectorAll('.poster-link');
+
+    posterLinks.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        const destination = link.href;
+
+        if (!selectSound) {
+          window.location.href = destination;
+          return;
+        }
+
+        selectSound.currentTime = 0;
+        const playPromise = selectSound.play();
+
+        const goToPage = () => {
+          window.location.href = destination;
+        };
+
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setTimeout(goToPage, 170);
+            })
+            .catch(() => {
+              goToPage();
+            });
+        } else {
+          setTimeout(goToPage, 170);
+        }
+      });
+    });
+  </script>
+  
+</body>
+</html>
