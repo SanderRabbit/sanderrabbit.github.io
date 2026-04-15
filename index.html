@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sanderrabbit</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page-frame">
+
+  <div class="title-bar">
+       <span class="title-text">VMware Ver.666 </span>
+      <div class="title-buttons">
+      <span class="btn">_</span>
+      <span class="btn">□</span>
+      <span class="btn">X</span>
+    </div>
+  </div>
+
+  <iframe class="menu-frame" src="/menu" scrolling="no"></iframe>
+
+  <div class="content-panel">
+    <iframe class="content-frame" name="content-frame" src="/home/home" title="site content"></iframe>
+  </div>
+
+</div>
+
+<div class="global-info-overlay is-hidden" id="global-info-overlay" aria-hidden="true"></div>
+
+<article
+  id="global-info-window"
+  class="global-info-window is-hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="global-info-title"
+>
+  <div class="global-info-titlebar" id="global-info-drag">
+    <span class="global-info-title" id="global-info-title">info.ver</span>
+
+    <div class="global-info-buttons">
+      <button type="button" class="global-info-btn" aria-label="minimize" tabindex="-1">_</button>
+      <button type="button" class="global-info-btn" aria-label="maximize" tabindex="-1">□</button>
+      <button type="button" class="global-info-btn close-btn" id="global-info-close" aria-label="close">×</button>
+    </div>
+  </div>
+
+  <div class="global-info-body hello-scroll">
+    <div class="panel-section crest-box">
+      <div class="sigil">✝</div>
+      <p class="nameplate">SanderRabbit</p>
+      <div class="sigil">✝</div>
+      <p class="status-line">diablo 2 and 4 vibe / works in progress</p>
+
+      <div class="hello-copy">
+        <p>안녕하세요! 웹페이지 처음 깎는 뉴비입니다. PC랑 모바일 호환되도록 열심히 코딩 배우고 있습니다 지금도 아무것도 모르겠지만요 크흡...</p>
+        <p>아무튼 열심히 뚝딱뚝딱 하는 중이니 관심있게 보셨다면 감사합니다.</p>
+      </div>
+    </div>
+  </div>
+</article>
+
+<div class="winamp-player" id="winamp-player">
+  <div class="winamp-titlebar" id="winamp-drag-handle">
+    <span>WINAMP</span>
+    <div class="winamp-title-buttons">
+      <button type="button" id="player-minimize" aria-label="minimize">_</button>
+    </div>
+  </div>
+
+  <div class="winamp-body" id="winamp-body">
+    <div class="winamp-screen">
+      <div class="screen-left">
+        <div class="track-name" id="track-name">01. bgm.mp3</div>
+        <div class="time" id="track-time">00:00 / 00:00</div>
+      </div>
+
+      <div class="screen-right">
+        <canvas id="visualizer" width="72" height="28"></canvas>
+      </div>
+    </div>
+
+    <div class="winamp-controls">
+      <button type="button" id="prev-btn">⏮</button>
+      <button type="button" id="play-btn">▶</button>
+      <button type="button" id="pause-btn">❚❚</button>
+      <button type="button" id="stop-btn">■</button>
+      <button type="button" id="next-btn">⏭</button>
+    </div>
+
+    <div class="winamp-volume">
+      <label for="volume">VOL</label>
+      <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
+    </div>
+
+    <div class="eq-panel">
+      <div class="eq-title">EQUALIZER</div>
+      <div class="eq-sliders">
+        <label><span>60</span><input type="range" class="eq-slider" data-band="60" min="-20" max="20" step="1" value="0"></label>
+        <label><span>170</span><input type="range" class="eq-slider" data-band="170" min="-20" max="20" step="1" value="0"></label>
+        <label><span>310</span><input type="range" class="eq-slider" data-band="310" min="-20" max="20" step="1" value="0"></label>
+        <label><span>600</span><input type="range" class="eq-slider" data-band="600" min="-20" max="20" step="1" value="0"></label>
+        <label><span>1k</span><input type="range" class="eq-slider" data-band="1000" min="-20" max="20" step="1" value="0"></label>
+        <label><span>3k</span><input type="range" class="eq-slider" data-band="3000" min="-20" max="20" step="1" value="0"></label>
+        <label><span>6k</span><input type="range" class="eq-slider" data-band="6000" min="-20" max="20" step="1" value="0"></label>
+        <label><span>12k</span><input type="range" class="eq-slider" data-band="12000" min="-20" max="20" step="1" value="0"></label>
+      </div>
+      <button type="button" id="eq-reset">RESET EQ</button>
+    </div>
+
+    <div class="playlist-panel">
+      <div class="playlist-title">PLAYLIST</div>
+      <ul id="playlist"></ul>
+    </div>
+
+    <audio id="bgm" preload="metadata" crossorigin="anonymous"></audio>
+  </div>
+</div>
+
+<button type="button" id="mini-player-button" aria-label="open player">♫ WINAMP</button>
+
+<script src="/player.js"></script>
+
+<script>
+(() => {
+  const overlay = document.getElementById("global-info-overlay");
+  const win = document.getElementById("global-info-window");
+  const closeBtn = document.getElementById("global-info-close");
+  const dragHandle = document.getElementById("global-info-drag");
+
+  if (!overlay || !win || !closeBtn || !dragHandle) return;
+
+  const isMobile = window.matchMedia("(max-width: 900px)");
+  let dragging = false;
+  let pointerId = null;
+  let startX = 0;
+  let startY = 0;
+  let startLeft = 0;
+  let startTop = 0;
+
+  function openGlobalInfoWindow() {
+    overlay.classList.remove("is-hidden");
+    overlay.setAttribute("aria-hidden", "false");
+    win.classList.remove("is-hidden");
+
+    if (isMobile.matches) {
+      win.style.left = "50%";
+      win.style.top = "50%";
+      win.style.transform = "translate(-50%, -50%)";
+      delete win.dataset.positioned;
+      return;
+    }
+
+    if (!win.dataset.positioned) {
+      const rect = win.getBoundingClientRect();
+      win.style.left = `calc(50% - ${rect.width / 2}px)`;
+      win.style.top = "12vh";
+      win.style.transform = "none";
+      win.dataset.positioned = "true";
+    }
+  }
+
+  function closeGlobalInfoWindow() {
+    overlay.classList.add("is-hidden");
+    overlay.setAttribute("aria-hidden", "true");
+    win.classList.add("is-hidden");
+  }
+
+  closeBtn.addEventListener("click", closeGlobalInfoWindow);
+  overlay.addEventListener("click", closeGlobalInfoWindow);
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !win.classList.contains("is-hidden")) {
+      closeGlobalInfoWindow();
+    }
+  });
+
+  dragHandle.addEventListener("pointerdown", (event) => {
+    if (isMobile.matches) return;
+    if (event.button !== 0) return;
+    if (event.target.closest("button")) return;
+
+    const rect = win.getBoundingClientRect();
+    dragging = true;
+    pointerId = event.pointerId;
+    startX = event.clientX;
+    startY = event.clientY;
+    startLeft = rect.left;
+    startTop = rect.top;
+
+    dragHandle.setPointerCapture(pointerId);
+    event.preventDefault();
+  });
+
+  window.addEventListener("pointermove", (event) => {
+    if (!dragging || isMobile.matches) return;
+    if (event.pointerId !== pointerId) return;
+
+    const dx = event.clientX - startX;
+    const dy = event.clientY - startY;
+
+    win.style.left = `${startLeft + dx}px`;
+    win.style.top = `${startTop + dy}px`;
+  });
+
+  const stopDrag = (event) => {
+    if (!dragging) return;
+    if (pointerId !== null && event.pointerId !== pointerId) return;
+    if (pointerId !== null && dragHandle.hasPointerCapture(pointerId)) {
+      dragHandle.releasePointerCapture(pointerId);
+    }
+    dragging = false;
+    pointerId = null;
+  };
+
+  window.addEventListener("pointerup", stopDrag);
+  window.addEventListener("pointercancel", stopDrag);
+
+  isMobile.addEventListener("change", () => {
+    if (win.classList.contains("is-hidden")) return;
+
+    if (isMobile.matches) {
+      win.style.left = "50%";
+      win.style.top = "50%";
+      win.style.transform = "translate(-50%, -50%)";
+      delete win.dataset.positioned;
+      return;
+    }
+
+    if (!win.dataset.positioned) {
+      const rect = win.getBoundingClientRect();
+      win.style.left = `calc(50% - ${rect.width / 2}px)`;
+      win.style.top = "12vh";
+      win.style.transform = "none";
+      win.dataset.positioned = "true";
+    }
+  });
+
+  window.openGlobalInfoWindow = openGlobalInfoWindow;
+  window.closeGlobalInfoWindow = closeGlobalInfoWindow;
+})();
+</script>
+
+</body>
+</html>
