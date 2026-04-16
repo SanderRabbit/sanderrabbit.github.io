@@ -362,6 +362,61 @@ img {
   height: 260px;
 }
 
+.profile-header {
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #8b000044;
+  background: #1a0505;
+}
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #8b0000;
+  object-fit: cover;
+}
+
+.profile-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #8b000022;
+}
+
+.profile-col {
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #cc7777;
+}
+
+.profile-col:first-child {
+  border-right: 1px solid #8b000033;
+}
+
+.col-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #8b0000;
+  border-bottom: 1px solid #8b000033;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+
+.profile-col a {
+  color: #ff6666;
+  text-decoration: none;
+  display: block;
+}
+
+.profile-col a:hover {
+  text-decoration: underline;
+}
+
 .sigil,
 .nameplate,
 .status-line {
