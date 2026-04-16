@@ -62,7 +62,7 @@ a:active {
   position: fixed;
   inset: 0;              /* top/right/bottom/left 전부 0 */
   z-index: -1;           /* 모든 요소 뒤로 */
-  background-image: url('https://file.garden/Zllpn6gh4hF11fjI/385739.webp');
+  background-image: url('https://file.garden/Zllpn6gh4hF11fjI/windowback.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
