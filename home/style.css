@@ -374,7 +374,7 @@ img {
   border-radius: 0;
   border: none;
   object-fit: cover;
-  object-position: center center;
+  object-position: center bottom;
   display: block;
 }
 
