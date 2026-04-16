@@ -57,6 +57,19 @@ a:active {
   cursor: url("https://file.garden/Zllpn6gh4hF11fjI/img/grabbing.png") 16 16, grabbing;
 }
 
+/* 배경 블러 레이어 */
+.bg-blur-layer {
+  position: fixed;
+  inset: 0;              /* top/right/bottom/left 전부 0 */
+  z-index: -1;           /* 모든 요소 뒤로 */
+  background-image: url('https://file.garden/Zllpn6gh4hF11fjI/tumblr_9b23a331cdde426b67797a9d29ec68a1_6828f9d8_400.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(8px);     /* 블러 강도, 숫자 높일수록 더 흐릿 */
+  transform: scale(1.05); /* 블러 시 가장자리 흰 여백 방지 */
+}
+
 .page-frame{
   width:90%;
   height:90vh;
