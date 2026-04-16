@@ -9,104 +9,445 @@
 <body>
 
 <!-- ▼ TERMINAL INTRO ▼ -->
-<div id="intro-overlay" style="
-  position:fixed;inset:0;z-index:9999;
-  background:#0d0005;
-  font-family:'Courier New',monospace;
-  padding:2rem 2.5rem;box-sizing:border-box;
-  overflow:hidden;transition:opacity 0.7s ease;
-">
-  <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.12) 3px,rgba(0,0,0,0.12) 4px);pointer-events:none;"></div>
-
-  <div id="io-hdr1" style="color:#ff2255;font-size:12px;margin-bottom:0.2rem;opacity:0;transition:opacity 0.3s">VMware Ver.666 (C) SanderRabbit Corp.</div>
-  <div id="io-hdr2" style="color:#ff2255;font-size:12px;margin-bottom:0.3rem;opacity:0;transition:opacity 0.3s">BIOS v6.6.6  |  CPU: SOUL-X  |  MEM: ∞ KB OK</div>
-  <div id="io-dvd1" style="color:#660022;font-size:12px;margin-bottom:1rem;opacity:0;transition:opacity 0.3s">════════════════════════════════════════════════════</div>
-
-  <pre id="io-ascii" style="font-size:clamp(7px,1.4vw,10.5px);line-height:1.15;white-space:pre;color:#ff2255;margin-bottom:1.2rem;opacity:0;transition:opacity 0.5s">
- ███████  █████  ███    ██ ██████  ███████ ██████  
- ██      ██   ██ ████   ██ ██   ██ ██      ██   ██ 
- ███████ ███████ ██ ██  ██ ██   ██ █████   ██████  
-      ██ ██   ██ ██  ██ ██ ██   ██ ██      ██   ██ 
- ███████ ██   ██ ██   ████ ██████  ███████ ██   ██ 
-                                                   
-             ✝  R A B B I T  ✝                     </pre>
-
-  <div id="io-dvd2" style="color:#660022;font-size:12px;margin-bottom:1rem;opacity:0;transition:opacity 0.3s">════════════════════════════════════════════════════</div>
-  <div id="io-log"></div>
-
-  <div id="io-prog" style="margin-top:1rem;opacity:0;transition:opacity 0.3s">
-    <div style="font-size:12px;color:#cc0033;margin-bottom:4px">Loading SanderRabbit OS...</div>
-    <div style="width:340px;max-width:100%;height:10px;background:#330011;border:1px solid #660022">
-      <div id="io-fill" style="height:100%;background:#ff2255;width:0%;transition:width 0.08s linear"></div>
-    </div>
-    <div id="io-pct" style="font-size:11px;color:#ff6699;margin-top:3px">0%</div>
-  </div>
-
-  <div id="io-done" style="margin-top:1.2rem;font-size:12px;color:#ff88aa;opacity:0;transition:opacity 0.4s"></div>
-</div>
-
-<style>
-  .io-line{font-size:12px;line-height:1.75;white-space:pre;color:#cc0033}
-  .io-ok{color:#ff6699}.io-warn{color:#ff2255}.io-bright{color:#ff88aa;font-weight:bold}.io-white{color:#ffbbcc}
-  @keyframes ioBlink{0%,100%{opacity:1}50%{opacity:0}}
-  #io-done{animation:ioBlink 1s step-start infinite}
-</style>
-
+<div id="intro-overlay">
+  <div id="intro-scanline"></div>
+  <div id="intro-glow"></div>
+  <div id="intro-content">
+ 
+    <div class="io-hdr" id="io-hdr1">VMware Ver.666 (C) SanderRabbit Corp.</div>
+    <div class="io-hdr" id="io-hdr2">BIOS v6.6.6  |  CPU: SOUL-X  |  MEM: ∞ KB OK</div>
+    <div class="io-dvd" id="io-dvd1">════════════════════════════════════════════════════</div>
+ 
+<pre id="io-ascii" style="
+  font-size: clamp(6px, 1.1vw, 9px);
+  line-height: 1.1;
+  white-space: pre;
+  color: #c61d1d;
+  margin-bottom: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.6s;
+  text-align: center;
+  letter-spacing: 0.02em;
+"></pre>
+ 
 <script>
-(function(){
-  const LOG=[
-    {t:"[ SYS  ]  Initializing kernel modules................",s:"OK"},
-    {t:"[ SYS  ]  Loading device drivers......................",s:"OK"},
-    {t:"[ MEM  ]  Memory test passed..........................",s:"PASS"},
-    {t:"[ DISK ]  Scanning storage............................",s:"OK"},
-    {t:"[ NET  ]  Network interface UP........................",s:"OK"},
-    {t:"[ SOUL ]  Checking soul integrity.....................",s:"OK"},
-    {t:"[ SYS  ]  Mounting filesystem.........................",s:"OK"},
-    {t:"[ WARN ]  666 anomalies detected — ignoring............",s:"SKIP"},
-    {t:"[ INIT ]  Spawning backroom.exe.........................",s:"OK"},
-    {t:"[ INIT ]  Satanistic vibe module loaded...................",s:"OK"},
-    {t:"",s:null,c:"io-line"},
-    {t:"  SANDERRABBIT OS  —  ALL SYSTEMS NOMINAL",s:null,c:"io-line io-bright"},
-    {t:"  diablo 2 and 4 vibe  /  works in progress",s:null,c:"io-line io-white"},
-    {t:"",s:null,c:"io-line"},
+(function () {
+  /* ── 8프레임 ASCII 데이터 ─────────────────────────── */
+  var FRAMES = [
+    /* frame 0 — 가장 선명 */
+    [
+      "                                                       ",
+      "              %+        %%%%%%%%                       ",
+      "              @##%+%@##############@%%  %@@%           ",
+      "               #######@@%%+  + %@@########@            ",
+      "             +@####@##@           %#######%            ",
+      "           +@######  @###@     %@###@%@####@+          ",
+      "          %###@  ##@   %@##@%@###@   %##%@###%         ",
+      "         %###%   %##%    %#####@     ##@  %###@        ",
+      "         @##@     @##+ %###@%@###%  @##%   %###%       ",
+      "        %###+      ######%     %@#####%     %###       ",
+      "        @##@     @#####+          @###@%    %###%      ",
+      "        @##%  @####%@##%          @##@###@  +###%      ",
+      "        +###@###%    ##@%        @##%  %@##@@###%      ",
+      "        @####@       %##@       %##@      %@####%      ",
+      "    +@#########################@###@@@@@@@@@@####@%    ",
+      "     %%%%%@###%%%%%%%%@###@%%%@###@@@@@@@@@###@@@@%%   ",
+      "           +###        %##%    @##        ###@         ",
+      "             @##@%      @##   @##%     +@###%          ",
+      "               @###@     ##@ %##%    %@###@            ",
+      "                 %####@@%@##%@##%@@####@%              ",
+      "                    %%@############@%+                 ",
+      "                          %###%                        ",
+      "                           %#@                         ",
+      "                            %%                         ",
+      "                                                       ",
+      "                                                       "
+    ],
+    /* frame 1 */
+    [
+      "                   @                                   ",
+      "                  %%                                   ",
+      "                  @@%   %%%@@@%%%                      ",
+      "                   @@@@@@@@%%%@@@@@@%  %@@@            ",
+      "                  +@@@@@@         %@@@@@@@             ",
+      "                 %@@@@%%@@%       %@@@@@@@@            ",
+      "               %@@@%%@@  +@@%   @@@%%@@@@@@@           ",
+      "           + +%@@@   @@%   +@@@@@+  %@@%@@@@@          ",
+      "           + %@#@+   %@@   %@@@@%   @@%  @@@@@         ",
+      "          + +%@@@     %@@@@@%  %@@%%@@   %@@@@         ",
+      "             @#@@     @@@%       %@@@%    @@@@         ",
+      "             %@@+   @@@@@@%       %@@@%   @@@@         ",
+      "             %@@%%@@@  %@@@@     %@@%%@@% @@@@         ",
+      "              @@@@%     %@@@     @@@   +@@@@@@         ",
+      "            %@@@@%%%%%+ %@@% +  %@@%     %@@@%         ",
+      "           %%%%@@@@%@@@@@@@@@@@@@@@@@@@@@@@@@@%        ",
+      "                %@%      %@@   +@@%    +%@@%           ",
+      "                 %@@      %@%  %@@%    %@@@%           ",
+      "                  +@@%     @% +@@+    %@@%%#           ",
+      "                    %@@%   %@%%@%   %@@%+              ",
+      "                       %@@@@@@@@@@@@@%                 ",
+      "                           %@@@@%%                     ",
+      "                             @@@                       ",
+      "                             %@@                       ",
+      "                              %@                       ",
+      "                                                       "
+    ],
+    /* frame 2 */
+    [
+      "                       @@@                             ",
+      "                       %@@%                            ",
+      "                       +@@  +%%+                       ",
+      "                        %@@%%%%%%%                     ",
+      "                        %@@%      %%%%%                ",
+      "                    ++%%@@%%%     %%%%%                ",
+      "                  %%%%@@@%%  %   %%%%%%                ",
+      "                 %@@@@@@  %   %%+ %%% +                ",
+      "                %@@@@#@%  @%  %%  %+  +                ",
+      "               %@@@@@##%  %%%%  %%%  ++                ",
+      "               %%@@@@##   +%%    %%  %++               ",
+      "               %%%@%@##  %%%%    %%  %+ +              ",
+      "                 + ++@@%@% %@@% +@   @%                ",
+      "                     +@@+  +@@@%@@   %+                ",
+      "                     @@%%% %%%%%@%      +              ",
+      "                      %%%%%%%%%%%%%                    ",
+      "                       %+   %% +%                      ",
+      "                        %   +% %@   +                  ",
+      "                         %   %%@%    ++                ",
+      "                          %  +%%    +                  ",
+      "                           +%%%%  +                    ",
+      "                              %%                       ",
+      "                               +                       ",
+      "                                %                      ",
+      "                                                       ",
+      "                                                       "
+    ],
+    /* frame 3 */
+    [
+      "                        %%@%%@@@                       ",
+      "                        %%%%@@@@                       ",
+      "                         %%%%@@                        ",
+      "                         +%%%%%                        ",
+      "                                                       ",
+      "                                                       ",
+      "                        %%%@@%+ +                      ",
+      "                        @#####@                        ",
+      "                       %@######                        ",
+      "                       %@######%+                      ",
+      "                       %@######%%                      ",
+      "                       +@######%%                      ",
+      "                        %@@@@#@%%                      ",
+      "                               %@                      ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       "
+    ],
+    /* frame 4 */
+    [
+      "                              %%@@@@@@@                ",
+      "                               %@@@%@@@                ",
+      "                               %@@@@@@@                ",
+      "                               %%%%%%#                 ",
+      "                                                       ",
+      "                                                       ",
+      "                                +%%%                   ",
+      "                      %          @@@@%%%               ",
+      "                      +%         @####@@               ",
+      "                                 @#####@@              ",
+      "                                 @######@              ",
+      "                    %%  %        @#####@@              ",
+      "                    %   %%       %@@@##@@              ",
+      "                        @@+                            ",
+      "                        %%                             ",
+      "                                                       ",
+      "                                                       ",
+      "                         %                             ",
+      "                         %                             ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       "
+    ],
+    /* frame 5 */
+    [
+      "                                    @@@@@%             ",
+      "                                    @@@@@%             ",
+      "                                   %@@@@@              ",
+      "                                  +%@@@@%              ",
+      "                                   %+                  ",
+      "                                  +  +                 ",
+      "                   %             +%   %%               ",
+      "                   %             +%   +@%%%            ",
+      "                    %  +        +%%%%% %@@@@           ",
+      "                    %+          %%%%%  +@@@@@          ",
+      "               %+%%                     @###@%         ",
+      "              %@%@%  %%%                @####%         ",
+      "              %%+    %###@  +      ++   @#@@@%         ",
+      "                      @###@             %%             ",
+      "                      %%%%%                            ",
+      "                                                       ",
+      "                       %%                              ",
+      "                        @%%% %+                        ",
+      "                        %%   %                         ",
+      "                         %                             ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       "
+    ],
+    /* frame 6 */
+    [
+      "                                         %%%%%         ",
+      "                                        %@%%%%         ",
+      "             %       %@@@@@@@@@@@%%  %@@@%%%%          ",
+      "             %@%%%@@@@%%%      %%@@@@@@@%++            ",
+      "              @@@@@@+           %@@%%@@@%              ",
+      "             %@@@%%%@@%      %%@@%  @@%@@@%            ",
+      "           %@@%%@%   %@@%+ %@@%    %@@  %@@%           ",
+      "          %@%%  @@%     @@@@@     +@@+   %@@@%         ",
+      "         %@%%   +@@+  %%@%%%@@%   @@%     %@@@%+       ",
+      "         %%%     %%%%@@%     +%@@@@%       %@@@%%      ",
+      "        %%%%     %@%@%          %@@@%+     %@@@@@@     ",
+      "        %%%%  %%%%%%@%          %@%%%@@%   %@@@@%%     ",
+      "        %%%%+%%%   %@@%%%%     %@%    +%@@%@@@%%%      ",
+      "        %%%%%       %@%+%      %%        %@@@@%        ",
+      "       %%%%%     %++%%%%%%%%%%%@%%%%%@@@@%@@@@@%%      ",
+      "      %%%%%%%%%%%++++%%%+ + +%@%%       %@@%           ",
+      "          +%%%       +%%+    %%%        %@%            ",
+      "            %%%       %%%   %%%       %@%              ",
+      "             %%%%      %%%  %%     +%%%                ",
+      "                %%%%%  %%%%%%%  %%%%%                  ",
+      "                   +%%%%%%%%%%%%%                      ",
+      "                         %%%                           ",
+      "                          %%                           ",
+      "                          %                            ",
+      "                         +                             ",
+      "                         %                             "
+    ],
+    /* frame 7 — 가장 선명 */
+    [
+      "                                          +            ",
+      "            %       %%%@@@@@@@@@%+      %@@+           ",
+      "            @##@%@##################@%@###@            ",
+      "            %#######@+           %#######@             ",
+      "           @#####@###%         %@###@@####@%           ",
+      "         %#######  %@###@+  %@###@%  ###@###@+         ",
+      "        %####  ###    %@######@%    @##%  @###%        ",
+      "       %###@   %##@    %######%    %##@    %###@@      ",
+      "      %###@     %##%@####@  %@###%%###      @###@      ",
+      "      @###%     %#####@        %@####@       ####@     ",
+      "      ####   +%@####@            @#####@%    @###@     ",
+      "      #### %####% %##%          %##@ %@###@% ####@     ",
+      "      @######%     @##%        %###     +@######@      ",
+      "    +%@###@%       %###%      %@##@  %%%+%%@#####%     ",
+      "  %@##############################################@%   ",
+      "        @###@        @##%    +@##         @##@         ",
+      "         %###@        ##@    @##%      %@###%          ",
+      "           @###@+     +##@  %##@     %@###@            ",
+      "             %####@%+  %##% ##@  +%@####%              ",
+      "                @###################@%                 ",
+      "                   +%%%@######@%%+                     ",
+      "                         %##@                          ",
+      "                          @#                           ",
+      "                                                       ",
+      "                                                       ",
+      "                                                       "
+    ]
   ];
-  const SFX={OK:"#ff6699",PASS:"#ff88aa",SKIP:"#cc0033"};
-  function g(id){return document.getElementById(id)}
-  let si=0;
-  function show(id,delay){setTimeout(()=>{g(id).style.opacity='1'},delay)}
-  show('io-hdr1',300);show('io-hdr2',500);show('io-dvd1',700);
-  setTimeout(()=>{g('io-ascii').style.opacity='1'},900);
-  show('io-dvd2',1300);
-  setTimeout(runLog,1500);
-  function runLog(){
-    if(si>=LOG.length){startProg();return}
-    const e=LOG[si],el=document.createElement('div');
-    el.className=e.c||'io-line';
-    if(e.s){el.innerHTML=e.t+' <span style="color:'+(SFX[e.s]||'#ff6699')+'">['+e.s+']</span>'}
-    else el.textContent=e.t;
-    g('io-log').appendChild(el);
-    si++;setTimeout(runLog,e.t===''?60:140+Math.random()*80);
+ 
+  /* ── 애니메이션 설정 ─────────────────────────────────
+     GIF 원본 duration=10ms (매우 빠름)
+     실제 표시는 각 프레임 200ms 로 조정
+  ──────────────────────────────────────────────────── */
+  var FRAME_MS = 200;
+  var el = document.getElementById("io-ascii");
+  if (!el) return;
+ 
+  var fi = 0;
+  var timer = null;
+ 
+  function renderFrame() {
+    el.textContent = FRAMES[fi].join("\n");
+    fi = (fi + 1) % FRAMES.length;
   }
-  function startProg(){
-    g('io-prog').style.opacity='1';
-    let p=0;
-    const iv=setInterval(()=>{
-      p+=Math.random()*4+1;
-      if(p>=100){p=100;clearInterval(iv);showDone()}
-      g('io-fill').style.width=p.toFixed(1)+'%';
-      g('io-pct').textContent=Math.floor(p)+'%';
-    },60);
+ 
+  /* intro-overlay가 사라지면 타이머 정리 */
+  function startAnim() {
+    renderFrame();
+    timer = setInterval(function () {
+      /* 오버레이가 숨겨졌으면 멈춤 */
+      var ov = document.getElementById("intro-overlay");
+      if (!ov || ov.style.display === "none") {
+        clearInterval(timer);
+        return;
+      }
+      renderFrame();
+    }, FRAME_MS);
   }
-  function showDone(){
-    const d=g('io-done');
-    d.textContent='▶ BOOT COMPLETE — Entering SanderRabbit...';
-    d.style.opacity='1';
-    setTimeout(()=>{
-      const ov=g('intro-overlay');
-      ov.style.opacity='0';
-      setTimeout(()=>{ov.style.display='none'},720);
-    },2200);
+ 
+  /* io-ascii가 show 클래스를 받는 시점(opacity 1) 이후 시작
+     — 기존 intro 스크립트가 1100ms 뒤에 show를 붙이므로
+       여기서는 그냥 즉시 준비만 해두고 첫 프레임 채워 넣음   */
+  renderFrame();  /* 첫 프레임 미리 채워서 빈 칸 방지 */
+  /* 애니메이션은 오버레이 페이드인 후 시작 */
+  setTimeout(startAnim, 1200);
+ 
+})();
+</script>
+
+</pre>
+ 
+    <div class="io-dvd" id="io-dvd2">════════════════════════════════════════════════════</div>
+ 
+    <div id="io-log"></div>
+ 
+    <div id="io-prog">
+      <div id="io-prog-label">Loading SanderRabbit OS...</div>
+      <div id="io-prog-bg"><div id="io-prog-fill"></div></div>
+      <div id="io-prog-pct">0%</div>
+    </div>
+ 
+    <div id="io-done"></div>
+ 
+  </div>
+</div>
+ 
+<script>
+(function () {
+  /* ── 부팅 로그 목록 ─────────────────────────────────── */
+  var LOG = [
+    { t: "[ SYS  ]  Initializing kernel modules................", s: "OK"   },
+    { t: "[ SYS  ]  Loading device drivers......................", s: "OK"   },
+    { t: "[ MEM  ]  Memory test passed..........................", s: "PASS" },
+    { t: "[ DISK ]  Scanning storage............................", s: "OK"   },
+    { t: "[ NET  ]  Network interface UP........................", s: "OK"   },
+    { t: "[ SOUL ]  Checking soul integrity.....................", s: "OK"   },
+    { t: "[ SYS  ]  Mounting filesystem.........................", s: "OK"   },
+    { t: "[ WARN ]  666 anomalies detected — ignoring............", s: "SKIP" },
+    { t: "[ INIT ]  Spawning rabbit.exe.........................", s: "OK"   },
+    { t: "[ INIT ]  Diablo vibe module loaded...................", s: "OK"   },
+    { t: "",                                                      s: null, c: "io-line muted" },
+    { t: "  SANDERRABBIT OS  —  ALL SYSTEMS NOMINAL",             s: null, c: "io-line bright" },
+    { t: "  diablo 2 and 4 vibe  /  works in progress",           s: null, c: "io-line white"  },
+    { t: "",                                                      s: null, c: "io-line muted" },
+  ];
+ 
+  /* [태그] 색상 */
+  var SFX_COLOR = { OK: "#f06090", PASS: "#ffaacc", SKIP: "#5a0a0a" };
+ 
+  /* 기본 딜레이 (기존 +0.2초 반영: 줄당 340ms, . 마다 60ms) */
+  var LINE_DELAY = 340;
+  var DOT_DELAY  = 60;
+ 
+  function g(id) { return document.getElementById(id); }
+ 
+  /* ── Winamp 숨기기 ──────────────────────────────────── */
+  var winamp     = document.getElementById("winamp-player");
+  var miniBtn    = document.getElementById("mini-player-button");
+  if (winamp)  winamp.style.display  = "none";
+  if (miniBtn) miniBtn.style.display = "none";
+ 
+  /* ── 헤더 순차 페이드인 ─────────────────────────────── */
+  function showEl(id, delay) {
+    setTimeout(function () {
+      var el = g(id);
+      if (el) el.classList.add("show");
+    }, delay);
   }
+ 
+  showEl("io-hdr1",  400);
+  showEl("io-hdr2",  650);
+  showEl("io-dvd1",  900);
+  setTimeout(function () {
+    var asc = g("io-ascii");
+    if (asc) asc.classList.add("show");
+  }, 1100);
+  showEl("io-dvd2", 1550);
+  setTimeout(runLog, 1800);
+ 
+  /* ── 로그 한 줄씩 출력 ──────────────────────────────── */
+  var si = 0;
+  function runLog() {
+    if (si >= LOG.length) { startProgress(); return; }
+ 
+    var entry = LOG[si];
+    var el    = document.createElement("div");
+    el.className = entry.c || "io-line";
+ 
+    if (entry.s) {
+      var color = SFX_COLOR[entry.s] || "#f06090";
+      el.innerHTML =
+        entry.t + ' <span style="color:' + color + '">[' + entry.s + ']</span>';
+    } else {
+      el.textContent = entry.t;
+    }
+ 
+    g("io-log").appendChild(el);
+    si++;
+ 
+    var delay = (entry.t === "") ? 80 : LINE_DELAY + Math.random() * DOT_DELAY;
+    setTimeout(runLog, delay);
+  }
+ 
+  /* ── 프로그레스 바 ──────────────────────────────────── */
+  function startProgress() {
+    var pw = g("io-prog");
+    if (pw) pw.classList.add("show");
+ 
+    var pct = 0;
+    var iv  = setInterval(function () {
+      pct += Math.random() * 3 + 0.8;   /* 약간 느리게 */
+      if (pct >= 100) {
+        pct = 100;
+        clearInterval(iv);
+        showDone();
+      }
+      var fill   = g("io-prog-fill");
+      var pctEl  = g("io-prog-pct");
+      if (fill)  fill.style.width    = pct.toFixed(1) + "%";
+      if (pctEl) pctEl.textContent   = Math.floor(pct) + "%";
+    }, 80);  /* 기존 60ms → 80ms (+0.2초 체감) */
+  }
+ 
+  /* ── 완료 메시지 → 페이드아웃 ──────────────────────── */
+  function showDone() {
+    var d = g("io-done");
+    if (d) {
+      d.textContent = "▶ BOOT COMPLETE — Entering SanderRabbit...";
+      d.classList.add("show");
+    }
+ 
+    /* 2.4초 후 페이드아웃 (기존 2200ms + 200ms) */
+    setTimeout(function () {
+      var ov = g("intro-overlay");
+      if (ov) {
+        ov.style.opacity = "0";
+        setTimeout(function () {
+          if (ov) ov.style.display = "none";
+ 
+          /* ── Winamp 복원 ─────────────────────────── */
+          var wp  = document.getElementById("winamp-player");
+          var mb  = document.getElementById("mini-player-button");
+          if (wp)  wp.style.display  = "";   /* 원래 display 복원 */
+          if (mb)  mb.style.display  = "";
+        }, 920);
+      }
+    }, 2400);
+  }
+ 
 })();
 </script>
 <!-- ▲ TERMINAL INTRO 끝 ▲ -->
