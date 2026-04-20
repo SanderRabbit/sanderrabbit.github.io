@@ -38,7 +38,8 @@
         <button
           class="desktop-icon"
           type="button"
-          id="explore-button"
+          data-open-window="window-explore"
+          aria-controls="window-explore"
         >
           <span class="icon-art" aria-hidden="true">𖤐</span>
           <span class="icon-label">explorer.exe</span>
@@ -191,6 +192,28 @@
         </div>
       </article>
 
+<article
+  id="window-explore"
+  class="desktop-window is-hidden"
+  data-window
+  style="--win-x: 52%; --win-y: 44%; --win-w: 500px;"
+  aria-labelledby="title-explore"
+>
+  <div class="window-titlebar" data-drag-handle>
+    <span class="window-title" id="title-explore">explorer.html</span>
+
+    <div class="window-buttons">
+      <button type="button" class="window-btn" aria-label="minimize" tabindex="-1">_</button>
+      <button type="button" class="window-btn" aria-label="maximize" tabindex="-1">□</button>
+      <button type="button" class="window-btn close-btn" data-close-window aria-label="close">×</button>
+    </div>
+  </div>
+
+  <div class="window-body notion-body">
+      <iframe src="https://www.notion.so/5131371d3399822e91228138223b7c58" width="100%" height="520" allowtransparency="yes" allow="autoplay" scrolling="auto" class="notion"></iframe>	
+    </div>
+</article>
+
       <!-- 두 번째 이미지 창 -->
 <article
   id="window-archive"
@@ -220,25 +243,5 @@
   <script src="rain.js"></script>
   <script src="window-drag.js"></script>
 </body>
-
-<script>
-const openSound = document.getElementById("icon-open-sound");
-const exploreButton = document.getElementById("explore-button");
-
-if (exploreButton) {
-  exploreButton.addEventListener("click", () => {
-    if (openSound) {
-      openSound.currentTime = 0;
-      openSound.play().catch(() => {});
-    }
-
-    const parentFrame = window.parent.document.querySelector(".content-frame");
-    if (parentFrame) {
-      parentFrame.src = "https://www.notion.so/5131371d3399822e91228138223b7c58";
-    }
-  });
-}
-
-</script>
 
 </html>
